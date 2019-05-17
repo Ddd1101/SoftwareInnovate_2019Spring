@@ -11,7 +11,8 @@
 ### CI/CD
 - url: http://155.138.199.76:8082/
 - tool: drone
-![image](http://github.com/Ddd1101/SoftwareInnovate_2019Spring/blob/master/image/WX20190423-205903.png)
+
+![image](https://github.com/Ddd1101/SoftwareInnovate_2019Spring/blob/develop/image/WX20190423-205903.png)
 
 ### 功能需求
 
