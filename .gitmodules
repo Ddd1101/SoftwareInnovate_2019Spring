@@ -1,0 +1,3 @@
+[submodule "examCenterUI"]
+	path = examCenterUI
+	url = git@github.com:zxf14/SoftwareInnovate_FE.git
