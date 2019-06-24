@@ -14,6 +14,10 @@
 
 ![image](https://github.com/Ddd1101/SoftwareInnovate_2019Spring/blob/develop/image/WX20190423-205903.png)
 
+
+### 微服务
+![image](https://github.com/Ddd1101/SoftwareInnovate_2019Spring/blob/develop/image/WX20190517-150808.png)
+
 ### 功能需求
 
 #### 邮件推送

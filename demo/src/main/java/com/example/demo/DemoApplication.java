@@ -1,4 +1,4 @@
-package com.nju.coursework;
+package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,11 +6,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-//@ComponentScan(basePackages = "com.nju.coursework")
-public class TestCenterApplication {
+public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TestCenterApplication.class, args);
+		SpringApplication.run(DemoApplication.class, args);
 	}
 
 }
