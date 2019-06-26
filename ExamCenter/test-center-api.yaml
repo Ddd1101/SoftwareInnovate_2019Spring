@@ -30,8 +30,7 @@ spec:
         tier: compute
     spec:
       containers:
-        - image: ist/test-center:v1
-          imagePullPolicy: Never
+        - image: juli1221/test-center:v1
           name: test-center
           env:
             - name: MYSQL_DB_USER
