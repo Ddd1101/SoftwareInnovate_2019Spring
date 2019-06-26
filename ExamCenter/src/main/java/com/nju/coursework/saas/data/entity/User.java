@@ -13,7 +13,7 @@ public class User {
     private String password;
     private Collection<Course> coursesById;
     private Collection<Exam> examsById;
-    private Collection<Groups> groupssById;
+    private Collection<Team> groupssById;
 
     @Id
     @GeneratedValue
@@ -87,11 +87,11 @@ public class User {
     }
 
     @OneToMany(mappedBy = "userByUserId")
-    public Collection<Groups> getGroupssById() {
+    public Collection<Team> getGroupssById() {
         return groupssById;
     }
 
-    public void setGroupssById(Collection<Groups> groupssById) {
+    public void setGroupssById(Collection<Team> groupssById) {
         this.groupssById = groupssById;
     }
 }

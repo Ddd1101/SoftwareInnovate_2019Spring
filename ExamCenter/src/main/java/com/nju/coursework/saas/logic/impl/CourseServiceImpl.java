@@ -27,7 +27,7 @@ public class CourseServiceImpl implements CourseService {
     public GeneralResponse createCourse(int userId, String courseName) {
         try {
             Course course = new Course();
-            course.setUserByUserId(userRepository.findOne(userId));
+            course.setUserByUserId(userRepository.getOne(userId));
             course.setName(courseName);
             courseRepository.saveAndFlush(course);
         } catch (Exception e) {

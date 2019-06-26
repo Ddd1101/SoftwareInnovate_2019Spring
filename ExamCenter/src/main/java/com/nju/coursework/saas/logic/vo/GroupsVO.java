@@ -1,7 +1,7 @@
 package com.nju.coursework.saas.logic.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.nju.coursework.saas.data.entity.Groups;
+import com.nju.coursework.saas.data.entity.Team;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +23,7 @@ public class GroupsVO {
     public GroupsVO() {
     }
 
-    public GroupsVO(Groups groups) {
+    public GroupsVO(Team groups) {
         id = groups.getId();
         name = groups.getName();
         if (groups.getStudents()!=null)

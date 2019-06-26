@@ -9,20 +9,19 @@ import com.nju.coursework.saas.logic.vo.*;
 import com.nju.coursework.saas.web.response.GeneralResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.*;
-import java.util.stream.Collector;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class ExamServiceImpl implements ExamService {
@@ -46,9 +45,7 @@ public class ExamServiceImpl implements ExamService {
     @Autowired
     CourseRepository courseRepository;
     @Autowired
-    GroupRepository groupRepository;
-    @Resource
-    GroupService groupService;
+    TeamRepository teamRepository;
     @Resource
     MailService mailService;
 
@@ -66,7 +63,7 @@ public class ExamServiceImpl implements ExamService {
         }
         List<Testee> testees = new ArrayList<>();
 
-        Groups group = groupRepository.findOne(examConfigVO.getGroupId());
+        Team group = teamRepository.getOne(examConfigVO.getGroupId());
         List<String> studentName = Arrays.asList(group.getStudents().split(";")).stream()
                 .filter(s -> s.split(" ").length == 2)
                 .filter(s -> studentRepository.findByEmail(s.split(" ")[1]) != null &&
@@ -143,8 +140,8 @@ public class ExamServiceImpl implements ExamService {
                                      String startTime, String endTime, String title, String place, int courseId) {
 
         List<Quiz> quizs = new ArrayList<>();
-        User teacher = userRepository.findOne(userId);
-        Course course = courseRepository.findOne(courseId);
+        User teacher = userRepository.getOne(userId);
+        Course course = courseRepository.getOne(courseId);
         try {
             Exam exam = new Exam();
             exam.setCourseById(course);
@@ -196,13 +193,13 @@ public class ExamServiceImpl implements ExamService {
         List<Answer> answerList = new ArrayList<>();
         quizVOs.stream().forEach(
                 quizVO -> {
-                    Quiz quiz = quizRepository.findOne(quizVO.getId());
+                    Quiz quiz = quizRepository.getOne(quizVO.getId());
 //                    Question question = quiz.getQuestionByQuestionId();
-                    Question question = questionRepository.findOne(quizVO.getQuestion().getId());
+                    Question question = questionRepository.getOne(quizVO.getQuestion().getId());
                     //学生选择答案
                     List<Aoption> options = quizVO.getOptionId().stream().filter(optionId -> optionId != null).map(
                             optionId -> {
-                                Aoption option = optionRepository.findOne(Integer.parseInt(optionId));
+                                Aoption option = optionRepository.getOne(Integer.parseInt(optionId));
                                 return option;
                             }
                     ).collect(Collectors.toList());
@@ -219,7 +216,7 @@ public class ExamServiceImpl implements ExamService {
                 }
         );
         try {
-            Testee testee = testeeRepository.findOne(testeeId);
+            Testee testee = testeeRepository.getOne(testeeId);
             final int[] testeeScore = {0};
             answerList.forEach(a -> {
                 a.setStudentByStudentId(testee.getStudentByStudentId());
@@ -239,7 +236,7 @@ public class ExamServiceImpl implements ExamService {
             return new GeneralResponse(false, e.getMessage());
         }
         //向考生发送考试结果
-        Testee testee = testeeRepository.findOne(testeeId);
+        Testee testee = testeeRepository.getOne(testeeId);
         mailService.scoreMail(testee.getStudentMail(), testee.getExamByExamId().getExamTitle(), testee.getScore());
         return new GeneralResponse(true, "试卷提交成功");
     }
@@ -280,8 +277,8 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public ExamVO createExamBefore(Integer examId, Integer testeeId) {
-        Exam exam = examRepository.findOne(examId);
-        Testee testee = testeeRepository.findOne(testeeId);
+        Exam exam = examRepository.getOne(examId);
+        Testee testee = testeeRepository.getOne(testeeId);
         StudentVO studentVO = new StudentVO();
         studentVO.setStudentNo(testee.getStudentByStudentId().getStudentNo());
         studentVO.setMail(testee.getStudentMail());
@@ -316,7 +313,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public ExamVO getExamAfter(int examId, String studentId) {
-        Exam exam = examRepository.findOne(examId);
+        Exam exam = examRepository.getOne(examId);
         Student student = null;
         StudentVO studentVO = null;
         int score = 0;
@@ -425,13 +422,13 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public boolean attendExam(int testeeId, String password) {
-        Testee testee = testeeRepository.findOne(testeeId);
+        Testee testee = testeeRepository.getOne(testeeId);
         return testee.getExamPassword().equals(password);
     }
 
     private List<QuizVO> getQuestions(List<Quiz> quizzes) {
         return quizzes.stream().map(i -> {
-            Question question = questionRepository.findOne(i.getQuestionByQuestionId().getId());
+            Question question = questionRepository.getOne(i.getQuestionByQuestionId().getId());
             List<Aoption> optionVO = optionRepository.findByQuestion(question.getId());
             question.setAoptionsById(optionVO);
             QuizVO quizVO = new QuizVO(i, question);

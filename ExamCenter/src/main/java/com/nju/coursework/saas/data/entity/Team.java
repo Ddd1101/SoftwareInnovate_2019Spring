@@ -2,12 +2,13 @@ package com.nju.coursework.saas.data.entity;
 
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Created by zhouxiaofan on 2017/12/4.
  */
 @Entity
-public class Groups {
+public class Team {
     private String name;
     private String students;
     private int id;
@@ -49,11 +50,11 @@ public class Groups {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Groups groups = (Groups) o;
+        Team groups = (Team) o;
 
         if (id != groups.id) return false;
-        if (name != null ? !name.equals(groups.name) : groups.name != null) return false;
-        if (students != null ? !students.equals(groups.students) : groups.students != null) return false;
+        if (!Objects.equals(name, groups.name)) return false;
+        if (!Objects.equals(students, groups.students)) return false;
 
         return true;
     }
@@ -68,7 +69,7 @@ public class Groups {
 
     @Override
     public String toString() {
-        return "Groups{" +
+        return "Team{" +
                 "name='" + name + '\'' +
                 ", students='" + students + '\'' +
                 ", id=" + id +

@@ -1,9 +1,8 @@
 package com.nju.coursework.saas.logic.impl;
 
-import com.nju.coursework.saas.data.db.GroupRepository;
+import com.nju.coursework.saas.data.db.TeamRepository;
 import com.nju.coursework.saas.data.db.UserRepository;
-import com.nju.coursework.saas.data.entity.Groups;
-import com.nju.coursework.saas.data.entity.User;
+import com.nju.coursework.saas.data.entity.Team;
 import com.nju.coursework.saas.logic.service.GroupService;
 import com.nju.coursework.saas.logic.vo.GroupsVO;
 import com.nju.coursework.saas.util.ExcelConverter;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class GroupServiceImpl implements GroupService {
     @Autowired
-    GroupRepository groupRepository;
+    TeamRepository teamRepository;
     @Autowired
     UserRepository userRepository;
 
@@ -53,16 +52,16 @@ public class GroupServiceImpl implements GroupService {
     }
 
     private void saveGroup(List<String> list, String groupName, int userId) {
-        Groups group = new Groups();
+        Team group = new Team();
         group.setName(groupName);
         group.setStudents(String.join(";", list));
-        group.setUserByUserId(userRepository.findOne(userId));
-        groupRepository.saveAndFlush(group);
+        group.setUserByUserId(userRepository.getOne(userId));
+        teamRepository.saveAndFlush(group);
     }
 
     @Override
     public List<GroupsVO> getGroups(int userId) {
-        List<Groups> groups = groupRepository.findByTeacher(userId);
+        List<Team> groups = teamRepository.findByTeacher(userId);
         List<GroupsVO> result = groups.stream().map(item -> new GroupsVO(item)).collect(Collectors.toList());
         return result;
     }

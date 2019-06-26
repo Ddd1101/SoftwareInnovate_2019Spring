@@ -40,7 +40,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public GeneralResponse importQuestion(InputStream excel, int courseId) {
         GeneralResponse generalResponse = null;
-        Course course = courseRepository.findOne(courseId);
+        Course course = courseRepository.getOne(courseId);
         try {
             XSSFSheet xssfSheet = new XSSFWorkbook(excel).getSheetAt(0);
             //第一行为标题
