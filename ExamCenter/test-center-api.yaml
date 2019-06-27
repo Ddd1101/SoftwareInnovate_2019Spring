@@ -55,4 +55,4 @@ spec:
                   name: demo-credentials
                   key: port
           ports:
-            - containerPort: 8764
+            - containerPort: 8080
